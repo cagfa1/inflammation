@@ -43,6 +43,13 @@ def patient_normalise(data):
     NaN values are ignored
     Negative values are clipped to 0'''
 
+    if not isinstance(data, np.ndarray):
+        raise TypeError('Data must be an ndarray object')
+    elif np.any(data < 0 ):
+        raise ValueError('Inflammation values should be non-negative')
+    elif len(data.shape) != 2:
+        raise ValueError('Inflammation data must be 2-dimensional')
+
     max = np.max(data, axis=1)
     with np.errstate(invalid = 'ignore', divide = 'ignore'):
         normalised = data/max[:,np.newaxis]
